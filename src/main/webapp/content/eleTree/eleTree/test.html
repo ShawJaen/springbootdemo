@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="keywords" content="hsiangleev,layui扩展">
+    <title>layui扩展树示例</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../eleTree/eleTree.css" media="all">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon.ico">
+    <style>
+        html,body{
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 15px 0px 30px 0px;
+        }
+        .nav{
+            position: fixed;
+            right: 25px;
+            top: calc(50% - 90px);
+            border: 1px solid #d2d2d2;
+            background-color:#fff;
+            z-index: 100000;
+        }
+        .nav-title{
+            background-color: #F8F8F8; 
+            padding:0 80px 0 20px;
+            margin: 0px;
+            height: 42px;
+            line-height: 42px;
+            border-bottom: 1px solid #eee;
+        }
+        .nav ul{
+            padding:10px 0px 10px 35px;
+        }
+        .nav ul li{
+            padding: 5px 0px;
+            list-style-type: decimal;
+        }
+        .nav ul a{
+            color: #333;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .eleTree{
+            width: 350px;
+            height: 500px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .inp{
+            width: 100%;
+            line-height: 30px;
+        }
+        .slideTest{
+            margin: 0 10px;
+        }
+        .met{
+            display: none;
+            width: 100%;
+        }
+        .ele4{
+            height: 200px;
+        }
+        .blue{
+            color: #01AAED;
+        }
+        a:hover{
+            color: #01AAED;
+        }
+        .ele5{
+            height: auto;
+            width: 100%;
+            display: none;
+            position: absolute;
+            top:100%;
+            background-color: #fff;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <a href="https://github.com/hsiangleev/layuiExtend" style="float: right;"><img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_red_aa0000.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    <div class="nav">
+        <h5 class="nav-title">目录</h5>
+        <ul>
+            <li><a href="#eventEx">事件示例</a></li>
+        </ul>
+    </div>
+    <a href="../eleTree/index.html" class="blue" style="line-height: 60px;font-size: 30px;">文档链接</a>
+
+
+    
+    <fieldset class="layui-elem-field layui-field-title site-title">
+        <legend>
+            <a name="eventEx">事件示例</a>
+        </legend>
+    </fieldset>
+    <div class="eleTree ele3" lay-filter="data3"></div>
+    <div class="eleTree layui-form">
+        <h3 style="line-height: 50px;text-align:center;color: #ff4200">请在触发动作时查看控制台数据</h3>
+    </div>
+
+
+
+
+
+    <script src="../layui/layui.js"></script>
+    <script>
+        
+        layui.config({
+            base: "../layui/lay/mymodules/"
+        }).use(['jquery','table','eleTree','code','form','slider'], function(){
+            var $ = layui.jquery;
+            var eleTree = layui.eleTree;
+            var table = layui.table;
+            var code = layui.code;
+            var form = layui.form;
+            var slider = layui.slider;
+
+         /*   var data=[
+                {
+                    "id": 1,
+                    "label": "安徽省",
+                    "children": [
+                        {
+                            "id": 2,
+                            "label": "马鞍山市",
+                            "disabled": true,
+                            "children": [
+                                {
+                                    "id": 3,
+                                    "label": "和县"
+                                },
+                                {
+                                    "id": 4,
+                                    "label": "花山区",
+                                    "checked": true
+                                }
+                            ]
+                        },
+                        {
+                            "id": 22,
+                            "label": "淮北市",
+                            "children": [
+                                {
+                                    "id": 23,
+                                    "label": "濉溪县"
+                                },
+                                {
+                                    "id": 24,
+                                    "label": "相山区",
+                                    "checked": true
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 5,
+                    "label": "河南省",
+                    "children": [
+                        {
+                            "id": 6,
+                            "label": "郑州市"
+                        }
+                    ]
+                },
+                {
+                    "id": 10,
+                    "label": "江苏省",
+                    "children": [
+                        {
+                            "id": 11,
+                            "label": "苏州市"
+                        },
+                        {
+                            "id": 12,
+                            "label": "南京市",
+                            "children": [
+                                {
+                                    "id": 13,
+                                    "label": "姑苏区"
+                                },
+                                {
+                                    "id": 14,
+                                    "label": "相城区"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ];  */
+
+            
+
+            var el3=eleTree.render({
+                elem: '.ele3',
+           //     data: data,
+                 url: "../eleTree/tree.json",
+        //    url:'http://localhost:8081/Tree.do',
+                showCheckbox: true,
+                defaultExpandAll: true,
+                draggable: true,
+                contextmenuList: ["copy","add.async","edit","remove",{eventName: "test", text: "测试"}]
+            });
+            eleTree.on("nodeClick(data3)",function(d) {
+                console.group("节点点击nodeClick:")
+                console.log(d.data);    // 点击节点对于的数据
+                console.log(d.event);   // event对象
+                console.log(d.node);    // 点击的dom节点
+                console.log(this);      // 与d.node相同
+                console.groupEnd();      
+
+            }) 
+            eleTree.on("nodeChecked(data3)",function(d) {
+                console.group("节点选中nodeChecked:")
+                console.log(d.data);    // 点击节点对于的数据
+                console.log(d.isChecked);   // input是否被选中
+                console.log(d.node);    // 点击的dom节点
+                console.log(this);      // input对于的dom
+                console.groupEnd();      
+            })
+            eleTree.on("nodeContextmenu(data3)",function(d) {
+                console.group("节点右键nodeContextmenu:")
+                console.log(d.data);    // 点击节点对于的数据
+                console.log(d.event);   // event对象
+                console.log(d.node);    // 点击的dom节点
+                console.log(this);      // 与d.node相同
+                console.groupEnd();      
+            })
+            eleTree.on("nodeDrag(data3)",function(d) {
+                console.group("节点拖拽nodeDrag:")
+                // d.stop();           // 取消拖拽
+                console.log(d.current);    // 起始节点对应的dom和数据
+                console.log(d.target);   // 鼠标落点对应的dom和数据
+                console.log(this);      // 鼠标落点对应的dom
+                console.groupEnd();      
+            })
+
+            eleTree.on("nodeAppend(data3)",function(d) {
+                // 异步操作
+                setTimeout(function() {
+                    console.group("添加子节点nodeAppend:")
+                    console.log(d.data);    // 点击节点对于的数据
+                    console.log(d.node);    // 点击的dom节点
+                    console.log(this);      // 与d.node相同
+                    // d.stop();            // 取消添加
+                    // d.setData({          // 自定义数据
+                    //     id: 666,
+                    //     label: "aaa"
+                    // })
+                    d.setData();    // 异步必须调用
+                    // d.stop();
+                    console.log(d.newData); // 新增加的节点数据
+                    console.groupEnd();  
+                },300)    
+            })
+            eleTree.on("nodeInsertBefore(data3)",function(d) {
+                // 异步操作
+                setTimeout(function() {
+                    console.group("添加节点之前nodeInsertBefore:")
+                    console.log(d.data);    // 点击节点对于的数据
+                    console.log(d.node);    // 点击的dom节点
+                    console.log(this);      // 与d.node相同
+                    // d.stop();            // 取消添加
+                    // d.setData({          // 自定义数据
+                    //     key: 666,
+                    //     label: "aaa"
+                    // })
+                    d.setData()
+                    console.log(d.newData); // 新增加的节点数据
+                    console.groupEnd();    
+                },300)  
+            })
+            eleTree.on("nodeInsertAfter(data3)",function(d) {
+                // 异步操作
+                setTimeout(function() {
+                    console.group("添加节点之后nodeInsertAfter:")
+                    console.log(d.data);    // 点击节点对于的数据
+                    console.log(d.node);    // 点击的dom节点
+                    console.log(this);      // 与d.node相同
+                    // d.stop();            // 取消添加
+                    // d.setData({          // 自定义数据
+                    //     key: 666,
+                    //     label: "aaa"
+                    // })
+                    d.setData()
+                    console.log(d.newData); // 新增加的节点数据
+                    console.groupEnd();   
+                },300)   
+            })
+            eleTree.on("nodeEdit(data3)",function(d) {
+                console.group("编辑节点nodeEdit:")
+                console.log(d.data);        // 点击节点对于的数据
+                console.log(d.node);        // 点击的dom节点
+                console.log(d.value);       // 新输入的值
+                console.log(this);          // 与d.node相同
+                // d.stop();                // 取消编辑
+                console.groupEnd();   
+                // 异步修改节点
+                // setTimeout(function() {
+                //     d.async()
+                // },300)
+            })
+            eleTree.on("nodeRemove(data3)",function(d) {
+                console.group("删除nodeRemove:")
+                console.log(d.data);        // 点击节点对于的数据
+                console.log(d.node);        // 点击的dom节点
+                // d.stop();                // 取消删除
+                console.groupEnd();   
+                // 异步删除节点
+                // setTimeout(function() {
+                //     d.async()
+                // },300)   
+            })
+            // 自定义右键菜单回调
+            eleTree.on("nodeTest(data3)",function(d) {
+                console.group("自定义右键菜单回调nodeTest:")
+                console.log(d.data);    // 点击节点对于的数据
+                console.log(d.node);    // 点击的dom节点
+                console.log(this);      // 与d.node相同
+                console.groupEnd();      
+            }) 
+           
+
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+出现过的问题：
+连接数据库出错：
+Caused by: java.sql.SQLException: The server time zone value 'XXXXXXXXX' is unrecognized or represents more than one time zone.
+ You must configure either the server or JDBC driver (via the serverTimezone configuration property) 
+ to use a more specifc time zone value if you want to utilize time zone support. 
+ 
+ 这种情况在数据库加&serverTimezone=UTC
+ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/ssm?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+ 
+配置前端页面
+在配置文件上加
+spring.mvc.view.prefix=/WEB-INF/jsp/
+spring.mvc.view.suffix=.jsp
+pom.xml 上加两个依赖
+<!--jsp页面使用jstl标签 -->
+<dependency>
+<groupId>javax.servlet</groupId>
+<artifactId>jstl</artifactId>
+</dependency>
+<!--用于编译jsp -->
+<dependency>
+<groupId>org.apache.tomcat.embed</groupId>
+<artifactId>tomcat-embed-jasper</artifactId>
+<scope>provided</scope>
+</dependency>
+新建的jsp页面放在src/main下
+
+
+Spring Boot 2.1.4RELEASE+Swagger2 2.9.2+Swagger ui 2.9.2
+遇到guava的兼容性导致的问题
+需引入guava依赖

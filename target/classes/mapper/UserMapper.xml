@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springbootdemo.dao.UserDao">
+    <select id="getUser" resultType="int">
+        SELECT count(*) FROM d_user 
+    </select>
+    
+    <select id="getTable" resultType="map">
+        select * from savetable
+    </select>
+    
+    <select id="getDbtable" resultType="map" parameterType="String">
+        select b.colid as id, b.colname as name from savetable a,savetablecol b where a.id = b.tableid and a.id=#{id}
+    </select>
+    
+    <select id="getTableName" resultType="map" parameterType="String">
+        select tablename from savetable where id=#{id}
+    </select>
+    
+    <select id="getDbtableData" resultType="map" parameterType="String" statementType="STATEMENT">
+        select * from ${tablename}
+    </select>
+    
+    <insert id="batchInsertList">
+        insert into test(id,mc)
+        values
+        <foreach item="item" index="index" collection="personlist" separator=",">
+            (REPLACE(uuid(), '-', ''),#{item.name})
+        </foreach>
+    </insert>
+</mapper>
