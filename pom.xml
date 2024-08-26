@@ -91,7 +91,7 @@
 		<dependency>
 		    <groupId>io.springfox</groupId>
 		    <artifactId>springfox-swagger-ui</artifactId>
-		    <version>2.7.0</version>
+		    <version>2.10.0</version>
 		</dependency>
 		<!-- 整合swagger2.9.2 swaggerui 2.9.2 出现的问题需解决guava的兼容性 -->
 		<dependency>
